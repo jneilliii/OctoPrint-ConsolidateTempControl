@@ -4,15 +4,25 @@ from __future__ import absolute_import, division, print_function
 import octoprint.plugin
 
 class ConsolidateTempControlPlugin(octoprint.plugin.TemplatePlugin,
-                                   octoprint.plugin.AssetPlugin):
+                                   octoprint.plugin.AssetPlugin,
+                                   octoprint.plugin.SettingsPlugin):
+
+	##-- Settings mixin
+	def get_settings_defaults(self):
+		return dict(tab_order=[dict(name="Temperature",selector="#temp"),dict(name="Control",selector="#control")], layout="horizontal")
+
+	##-- Template mixin
 	def get_template_configs(self):
 		return [
-			dict(type="tab", name="Command & Control", custom_bindings=False)
+			dict(type="tab", name="Command & Control", custom_bindings=False),
+			dict(type="settings", custom_bindings=True)
 		]
 
+	##-- AssetPlugin mixin
 	def get_assets(self):
-		return dict(js=["js/consolidate_temp_control.js"])
+		return dict(js=["js/jquery-ui.min.js","js/knockout-sortable.js","js/consolidate_temp_control.js"])
 
+	##~~ Softwareupdate hook
 	def update_hook(self):
 		return dict(
 			consolidate_temp_control=dict(
