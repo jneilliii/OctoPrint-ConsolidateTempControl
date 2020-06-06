@@ -24,7 +24,7 @@ $(function() {
 
 			// move original temp and control tab content and remove tab links.
 			ko.utils.arrayForEach(self.tab_order_selector(), function(tab) {
-				$(tab).appendTo('#tab_plugin_consolidate_temp_control > div.row-fluid').removeClass('tab-pane');
+				$(tab).appendTo('#tab_plugin_consolidate_temp_control > div.row-fluid').removeClass('tab-pane').addClass('span6');
 			});
 			$('#temp_link, #control_link').remove();
 
@@ -56,7 +56,7 @@ $(function() {
 				// footer adjustments
 				$('div.container.octoprint-container > div.footer').css({'padding-left':'20px','padding-right':'20px'});
 			} else {
-				$('#tabs_content > #temp, #tabs_content > #control').addClass('span6');
+				$('#temp, #control').removeClass('span6');
 			}
 		}
 
