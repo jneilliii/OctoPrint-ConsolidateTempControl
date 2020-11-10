@@ -20,7 +20,7 @@ class ConsolidateTempControlPlugin(octoprint.plugin.TemplatePlugin,
 
 	##-- AssetPlugin mixin
 	def get_assets(self):
-		return dict(js=["js/jquery-ui.min.js","js/knockout-sortable.js","js/consolidate_temp_control.js"])
+		return dict(js=["js/jquery-ui.min.js","js/knockout-sortable.1.2.0.js","js/consolidate_temp_control.js"])
 
 	##~~ Softwareupdate hook
 	def update_hook(self):
@@ -34,6 +34,16 @@ class ConsolidateTempControlPlugin(octoprint.plugin.TemplatePlugin,
 				user="jneilliii",
 				repo="OctoPrint-ConsolidateTempControl",
 				current=self._plugin_version,
+				stable_branch=dict(
+					name="Stable", branch="master", comittish=["master"]
+				),
+				prerelease_branches=[
+					dict(
+						name="Release Candidate",
+						branch="rc",
+						comittish=["rc", "master"],
+					)
+				],
 
 				# update method: pip
 				pip="https://github.com/jneilliii/OctoPrint-ConsolidateTempControl/archive/{target_version}.zip"
