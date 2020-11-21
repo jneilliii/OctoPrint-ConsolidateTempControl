@@ -9,16 +9,20 @@
 	</div>
 	<div class="row-fluid"><h5><u>{{ _('Layout') }}</u></h5></div>
 	<div class="row-fluid">
-		<div class="span4">
+		<div class="span4" title="{{ _('How the consolidated tabs are placed.') }}">
 			<select data-bind="value: settings.settings.plugins.consolidate_temp_control.layout">
 				<option value="horizontal">Horizontal</option>
 				<option value="vertical">Vertical</option>
 			</select>
 		</div>
-		<div class="span4" style="padding-top: 3px;" data-bind="visible: settings.settings.plugins.consolidate_temp_control.layout() == 'horizontal'">
+		<div class="span3" style="padding-top: 3px;" title="{{ _('Make navbar full width of browser.') }}" data-bind="visible: settings.settings.plugins.consolidate_temp_control.layout() == 'horizontal'">
 			<label class="checkbox">
-			<input type="checkbox" data-bind="checked: settings.settings.plugins.consolidate_temp_control.resize_navbar" /> {{ _('Resize Navbar') }}
+			    <input type="checkbox" data-bind="checked: settings.settings.plugins.consolidate_temp_control.resize_navbar" /> {{ _('Resize Navbar') }}
 			</label>
+		</div>
+		<div class="span5 input-prepend" title="{{ _('When window size is smaller than this threshold vertical mode will be enforced, enter 0 to always use horizontal mode.') }}" data-bind="visible: settings.settings.plugins.consolidate_temp_control.layout() == 'horizontal'">
+            <label class="input add-on">{{ _('Resolution Threshold') }}</label>
+            <input class="input-mini" type="number" min="0" data-bind="value: settings.settings.plugins.consolidate_temp_control.resolution_threshold" />
 		</div>
 	</div>
 </form>

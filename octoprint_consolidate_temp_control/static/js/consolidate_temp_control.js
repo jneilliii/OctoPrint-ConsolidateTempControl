@@ -28,7 +28,7 @@ $(function() {
 			});
 			$('#temp_link, #control_link').remove();
 
-			if(self.settings.settings.plugins.consolidate_temp_control.layout() == 'horizontal'){
+			if(self.settings.settings.plugins.consolidate_temp_control.layout() == 'horizontal' && (screen.width >= parseInt(self.settings.settings.plugins.consolidate_temp_control.resolution_threshold(), 10) && self.settings.settings.plugins.consolidate_temp_control.resolution_threshold() >= 0)){
 				// page container adjustments
 				$('div.page-container').css({'min-width':'1900px'});
 
@@ -44,7 +44,9 @@ $(function() {
 
 				// sidebar adjustments
 				if (!self.dragonorder) {
-					$('div.container.octoprint-container > div.row > div.accordion.span4').removeClass('span4').addClass('span2');
+					if($('div#settings_plugin_themeify').length == 0){
+						$('div.container.octoprint-container > div.row > div.accordion.span4').removeClass('span4').addClass('span2');
+					}
 					$('#files div.row-fluid.upload-buttons > span.btn.btn-primary.fileinput-button.span6:nth-child(2) > span').text('Upload SD');
 				}
 
@@ -129,7 +131,7 @@ $(function() {
 					self.temperatureViewModel.updatePlot();
 				}
 				self.temperatureViewModel.onAfterTabChange("#temp", previous);
-			} 
+			}
 		}
 	}
 
