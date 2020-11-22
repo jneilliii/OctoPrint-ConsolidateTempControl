@@ -16,6 +16,25 @@ or manually using this URL:
 
     https://github.com/jneilliii/OctoPrint-ConsolidateTempControl/archive/master.zip
 
+## Most recent changelog
+
+**[0.1.8](https://github.com/jneilliii/OctoPrint-ConsolidateTempControl/releases/tag/0.1.8)** (11/22/2020)
+
+**Added**
+
+* resolution threshold option for horizontal mode to switch to vertical mode automatically
+* release channels for OctoPrint 1.5.0+ for future rc testing, similar to OctoPrint as described [here](https://community.octoprint.org/t/how-to-use-the-release-channels-to-help-test-release-candidates/402)
+
+**Updated**
+
+* knockout sortable library for OctoPrint 1.5.0 compatibility
+
+**Fixed**
+
+* conflicts with Themeify and DragonOrder
+
+### [All releases](https://github.com/jneilliii/OctoPrint-ConsolidateTempControl/releases)
+
 ## Get Help
 
 If you experience issues with this plugin or need assistance please use the issue tracker by clicking issues above.
