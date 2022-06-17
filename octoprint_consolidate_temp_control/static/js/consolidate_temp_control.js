@@ -8,6 +8,7 @@ $(function() {
 		self.touchui = parameters[3];
 		self.dragonorder = parameters[4];
 		self.webcamtab = parameters[5];
+		self.uicsutomizer = parameters[6];
 		self.tab_order_selector = ko.pureComputed(function(){
 								var tabs = ko.utils.arrayMap(self.settings.settings.plugins.consolidate_temp_control.tab_order(), function(tab) {
 										return tab.selector();
@@ -26,7 +27,7 @@ $(function() {
 			ko.utils.arrayForEach(self.tab_order_selector(), function(tab) {
 				$(tab).appendTo('#tab_plugin_consolidate_temp_control > div.row-fluid').removeClass('tab-pane');
 			});
-			$('#temp_link, #control_link').remove();
+			$('#temp_link, #control_link, #tab_plugin_plotlytempgraph_link').remove();
 
 			if(self.settings.settings.plugins.consolidate_temp_control.layout() == 'horizontal' && (screen.width >= parseInt(self.settings.settings.plugins.consolidate_temp_control.resolution_threshold(), 10) && self.settings.settings.plugins.consolidate_temp_control.resolution_threshold() >= 0)){
 				// page container adjustments
@@ -52,7 +53,7 @@ $(function() {
 
 				// tabs adjustments
 				$('#tab_plugin_consolidate_temp_control > div.row-fluid > div').addClass('span6');
-				if($('div#settings_plugin_themeify').length == 0 && !self.dragonorder){
+				if($('div#settings_plugin_themeify').length == 0 && !self.dragonorder && !self.uicsutomizer){
 					$('div.container.octoprint-container > div.row > div.tabbable.span8').removeClass('span8').addClass('span10');
 					$('div#tabs_content div.tab-pane:not("#tab_plugin_consolidate_temp_control")').wrapInner('<div class="span6"></div>');
 					$('div#tabs_content div.tab-pane:not("#tab_plugin_consolidate_temp_control") div.span6').wrap('<div class="row-fluid"></div>');
@@ -137,8 +138,8 @@ $(function() {
 
 	OCTOPRINT_VIEWMODELS.push({
 		construct: ConsolidateTempControlViewModel,
-		dependencies: ["controlViewModel", "temperatureViewModel", "settingsViewModel", "touchUIViewModel", "dragon_orderViewModel", "WebcamTabViewModel"],
-		optional: ["touchUIViewModel", "dragon_orderViewModel", "WebcamTabViewModel"],
+		dependencies: ["controlViewModel", "temperatureViewModel", "settingsViewModel", "touchUIViewModel", "dragon_orderViewModel", "WebcamTabViewModel", "UICustomizerViewModel"],
+		optional: ["touchUIViewModel", "dragon_orderViewModel", "WebcamTabViewModel", "UICustomizerViewModel"],
 		elements: ["#consolidate_temp_control_settings_form"]
 	});
 });

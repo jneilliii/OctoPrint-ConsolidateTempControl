@@ -9,7 +9,7 @@ class ConsolidateTempControlPlugin(octoprint.plugin.TemplatePlugin,
 
 	##-- Settings mixin
 	def get_settings_defaults(self):
-		return dict(tab_order=[dict(name="Temperature",selector="#temp"),dict(name="Control",selector="#control")], layout="horizontal", resize_navbar=True, resolution_threshold=0)
+		return dict(tab_order=[dict(name="Temperature",selector="#temp, #tab_plugin_plotlytempgraph"),dict(name="Control",selector="#control")], layout="horizontal", resize_navbar=True, resolution_threshold=0)
 
 	##-- Template mixin
 	def get_template_configs(self):
