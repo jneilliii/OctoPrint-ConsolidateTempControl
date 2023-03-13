@@ -8,7 +8,8 @@ $(function() {
 		self.touchui = parameters[3];
 		self.dragonorder = parameters[4];
 		self.webcamtab = parameters[5];
-		self.uicsutomizer = parameters[6];
+		self.uicustomizer = parameters[6];
+        self.classicWebcamViewModel = parameters[7];
 		self.tab_order_selector = ko.pureComputed(function(){
 								var tabs = ko.utils.arrayMap(self.settings.settings.plugins.consolidate_temp_control.tab_order(), function(tab) {
 										return tab.selector();
@@ -53,11 +54,15 @@ $(function() {
 
 				// tabs adjustments
 				$('#tab_plugin_consolidate_temp_control > div.row-fluid > div').addClass('span6');
-				if($('div#settings_plugin_themeify').length == 0 && !self.dragonorder && !self.uicsutomizer){
+				if($('div#settings_plugin_themeify').length == 0 && !self.dragonorder && !self.uicustomizer){
 					$('div.container.octoprint-container > div.row > div.tabbable.span8').removeClass('span8').addClass('span10');
 					$('div#tabs_content div.tab-pane:not("#tab_plugin_consolidate_temp_control")').wrapInner('<div class="span6"></div>');
 					$('div#tabs_content div.tab-pane:not("#tab_plugin_consolidate_temp_control") div.span6').wrap('<div class="row-fluid"></div>');
 				}
+
+                if(self.classicWebcamViewModel){
+                    $('#webcam_plugin_classicwebcam_real > div > div').removeClass('span6');
+                }
 
 				// footer adjustments
 				$('div.container.octoprint-container > div.footer').css({'padding-left':'20px','padding-right':'20px'});
@@ -84,13 +89,19 @@ $(function() {
 				if (self.webcamtab) {
 					OctoPrint.coreui.selectedTab = "#tab_plugin_webcamtab";
 					self.controlViewModel.onTabChange("#tab_plugin_webcamtab", previous);
-				} else {
+				} else if (!self.classicWebcamViewModel) {
 					OctoPrint.coreui.selectedTab = "#control";
 					self.controlViewModel.onTabChange("#control", previous);
-				}
+				} else if (self.classicWebcamViewModel) {
+                    self.classicWebcamViewModel._enableWebcam();
+                }
 				OctoPrint.coreui.selectedTab = selected;
 			} else if (previous === "#tab_plugin_consolidate_temp_control") {
-				self.controlViewModel.onTabChange(current, "#control");
+                if(!self.classicWebcamViewModel) {
+                    self.controlViewModel.onTabChange(current, "#control");
+                } else {
+                    self.classicWebcamViewModel._disableWebcam();
+                }
 			}
 		};
 
@@ -108,20 +119,22 @@ $(function() {
 			}
 		};
 
-		self.controlViewModel.onBrowserTabVisibilityChange = function(status) {
-			if (status) {
-				var selected = OctoPrint.coreui.selectedTab;
-				if (self.webcamtab) {
-					OctoPrint.coreui.selectedTab = "#tab_plugin_webcamtab";
-				} else {
-					OctoPrint.coreui.selectedTab = "#control";
-				}
-				self.controlViewModel._enableWebcam();
-				OctoPrint.coreui.selectedTab = selected;
-			} else {
-				self.controlViewModel._disableWebcam();
-			}
-		};
+        if(!self.classicWebcamViewModel) {
+            self.controlViewModel.onBrowserTabVisibilityChange = function (status) {
+                if (status) {
+                    var selected = OctoPrint.coreui.selectedTab;
+                    if (self.webcamtab) {
+                        OctoPrint.coreui.selectedTab = "#tab_plugin_webcamtab";
+                    } else {
+                        OctoPrint.coreui.selectedTab = "#control";
+                    }
+                    self.controlViewModel._enableWebcam();
+                    OctoPrint.coreui.selectedTab = selected;
+                } else {
+                    self.controlViewModel._disableWebcam();
+                }
+            };
+        }
 
 		// fix temperature tab
 		self.onAfterTabChange = function(current, previous) {
@@ -138,8 +151,8 @@ $(function() {
 
 	OCTOPRINT_VIEWMODELS.push({
 		construct: ConsolidateTempControlViewModel,
-		dependencies: ["controlViewModel", "temperatureViewModel", "settingsViewModel", "touchUIViewModel", "dragon_orderViewModel", "WebcamTabViewModel", "UICustomizerViewModel"],
-		optional: ["touchUIViewModel", "dragon_orderViewModel", "WebcamTabViewModel", "UICustomizerViewModel"],
+		dependencies: ["controlViewModel", "temperatureViewModel", "settingsViewModel", "touchUIViewModel", "dragon_orderViewModel", "WebcamTabViewModel", "UICustomizerViewModel", "classicWebcamViewModel"],
+		optional: ["touchUIViewModel", "dragon_orderViewModel", "WebcamTabViewModel", "UICustomizerViewModel", "classicWebcamViewModel"],
 		elements: ["#consolidate_temp_control_settings_form"]
 	});
 });
